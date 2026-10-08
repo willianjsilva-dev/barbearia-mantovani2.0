@@ -104,7 +104,7 @@ footer{text-align:center;padding:30px 30px 90px;color:var(--mut);font-size:.85re
 <section id="local"><div class="t rv">Visite-nos</div><h2 class="rv">Horários e localização</h2>
   <div class="info">
     <div class="box rv"><h3>Horário de atendimento</h3><div id="hours"></div></div>
-    <div class="box rv"><h3>Onde estamos</h3><p id="addr"></p><a class="btn" data-map target="_blank" rel="noopener">Abrir no Google Maps</a></div>
+    <div class="box rv"><h3>Onde estamos</h3><p id="addr"></p><div class="btns" style="justify-content:flex-start"><a class="btn" data-map target="_blank" rel="noopener">Abrir no Google Maps</a><a class="btn o" data-ig target="_blank" rel="noopener">Instagram</a></div></div>
   </div>
 </section>
 <section class="cta"><div class="t rv">Agendamento</div><h2 class="rv">Pronto para o próximo corte?</h2><a class="btn rv" data-wa target="_blank" rel="noopener">Chamar no WhatsApp</a></section>
@@ -129,11 +129,11 @@ const CONFIG = {
   instagram: "https://www.instagram.com/mantovanibarbearia/",                                                 // ex.: "https://instagram.com/seuperfil"
   servicos: [
     { nome: "Corte",          desc: "Tesoura ou máquina, com acabamento na navalha.", preco: "R$ 45" },
-    { nome: "Barba",          desc: "Toalha quente, navalha e hidratação.",          preco: "R$ 40" },
+    { nome: "Barba",          desc: "Toalha quente, um barbear mais suave e sem irritação.",          preco: "R$ 40" },
     { nome: "Corte + Barba",  desc: "O combo completo para sair renovado.",          preco: "R$ 80" },
     { nome: "Sobrancelha",    desc: "Design na navalha, natural e alinhado.",        preco: "R$ 20" },
-     { nome: "Epilação Auricular",  desc: "Epilação.",          preco: "R$ 20" },
-     { nome: "Epilação Nasal",  desc: "Epilação.",          preco: "R$ 20" },
+     { nome: "Epilação Auricular",  desc: "Uma orelha mais limpa sem pelos",          preco: "R$ 20" },
+     { nome: "Epilação Nasal",  desc: "Chega de pelos saindo para fora do nariz",          preco: "R$ 20" },
   ],
   horarios: [
     ["Segunda a Sábado", "08h às 20h"],
@@ -150,13 +150,14 @@ const C=CONFIG, wa="https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(C.men
 $$("[data-logo]").forEach(i=>i.src=C.logo);
 $$("[data-wa]").forEach(a=>a.href=wa);
 $$("[data-map]").forEach(a=>a.href=C.mapsUrl);
+$$("[data-ig]").forEach(a=>C.instagram?a.href=C.instagram:a.remove());
 $("#slogan").textContent=C.slogan;
 $("#addr").textContent=C.endereco;
 $("#menu").innerHTML=[["#servicos","Serviços"],["#trabalhos","Trabalhos"],["#local","Local"]].map(m=>`<a class="l" href="${m[0]}">${m[1]}</a>`).join("")+`<a class="btn" style="padding:9px 18px;margin-left:22px" href="${wa}" target="_blank" rel="noopener">Agendar</a>`;
 $("#servicos-grid").innerHTML=C.servicos.map(s=>`<div class="card rv"><h3>${s.nome}</h3><p>${s.desc}</p><div class="p">${s.preco}</div></div>`).join("");
 $("#hours").innerHTML=C.horarios.map(h=>`<div class="row"><span>${h[0]}</span><b>${h[1]}</b></div>`).join("");
 $("#gal").innerHTML=C.galeria.map((f,i)=>`<div class="ph rv" data-src="${f}">Foto ${i+1}<img src="${f}" alt="Trabalho ${i+1}" loading="lazy" onerror="this.remove()"></div>`).join("");
-$("#foot").innerHTML="© "+new Date().getFullYear()+" "+C.nome+" · "+C.endereco+(C.instagram?` · <a href="${C.instagram}" target="_blank" rel="noopener" style="color:var(--gold)">Instagram</a>`:"");
+$("#foot").textContent="© "+new Date().getFullYear()+" "+C.nome;
 // Vídeo do hero
 const v=$("#vid");
 if(C.video.poster)v.poster=C.video.poster;
